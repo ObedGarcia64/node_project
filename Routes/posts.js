@@ -1,7 +1,7 @@
 const express = require('express');
 const Post = require('../Models/posts');
 const router = express.Router();
-router.post('/api/test', (req, res, next) => {
+router.postModel('/', (req, res, next) => {
     const post = new Post({
         title: req.body.title,
         content: req.body.content,

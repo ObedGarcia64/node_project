@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const app = express();
 const post = require('./Models/posts');
 const student = require ('./Models/posts');
+const postRoutes = require("./Routes/posts")
 mongoose.connect('mongodb://localhost:27017/testdb').then(() =>{
     console.log("Connected to DB")
 }).catch(() => {
@@ -36,6 +37,8 @@ protectedRoute.use((req, res, next) => {
 app.use(express.json());
 app.use(cors());
 
+app.use("/api/postRoutes", postRoutes);
+
 app.all('*', function(req, res, next){
     res.header("Access-Control-Allow-Origin","*");//let any computer/domain to connects everything
     res.header("Access-Control-Allow-Methods","PUT,GET,POST,DELETE,OPTIONS");//Allows PUT,GET,POST and DELETE options
@@ -61,6 +64,21 @@ app.post("/api/new", function(req, res){
         content: `Parangaricutirimicuaros ${body.hola}`
     });
 });
+
+app.put('/api/put', function(req, res){
+    let body = req.body;
+    res.send({
+      nombre:body.nombre,
+      apellido:body.apellido,
+      message: "body updated"
+    }); 
+  })
+  
+  app.delete('/api/delete', (req, res) => {
+    res.send({
+      message: "body deleted"
+    })
+  })
 
 app.listen(port, function(){
     console.log("API is running");
